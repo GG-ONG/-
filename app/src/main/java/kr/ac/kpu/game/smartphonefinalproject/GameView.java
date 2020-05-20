@@ -1,5 +1,6 @@
 package kr.ac.kpu.game.smartphonefinalproject;
 
+import android.bluetooth.BluetoothA2dp;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -16,6 +17,12 @@ public class GameView extends View {
     private int canvasWidth;
     private int canvasHeight;
 
+    //파랑볼
+    private int blueX;
+    private int blueY;
+    private int blueSpeed = 30;
+    private Paint bluePaint = new Paint();
+
     //kpu로고
     private Bitmap kpu[] = new Bitmap[2];
     private int KpuX=10;
@@ -27,6 +34,7 @@ public class GameView extends View {
 
     //점수
     private Paint scorePaint = new Paint();
+    private int score;
 
     //레벨
     private Paint levelPaint = new Paint();
@@ -46,8 +54,11 @@ public class GameView extends View {
 
         bgImage = BitmapFactory.decodeResource(getResources(), R.drawable.campus);
 
+        bluePaint.setColor(Color.BLUE);
+        bluePaint.setAntiAlias(false);
+
         scorePaint.setColor(Color.BLACK);
-        scorePaint.setTextSize(32);
+        scorePaint.setTextSize(50);
         scorePaint.setTypeface(Typeface.DEFAULT_BOLD);
         scorePaint.setAntiAlias(true);
 
@@ -62,6 +73,7 @@ public class GameView extends View {
 
         //처음 위치
         KpuY = 500;
+        score = 0;
     }
 
     @Override
@@ -88,8 +100,20 @@ public class GameView extends View {
             canvas.drawBitmap(kpu[0], KpuX, KpuY, null);
         }
 
+        //파랑
+        blueX -= blueSpeed;
+        if(hitCheck(blueX, blueY)){
+            score +=10;
+            blueX = -100;
 
-        canvas.drawText("Score : 0", 20, 60, scorePaint);
+        }
+        if(blueX < 0){
+            blueX = canvasWidth + 20;
+            blueY = (int) Math.floor(Math.random() * (maxKpuY - minKpuY)) + minKpuY;
+        }
+        canvas.drawCircle(blueX, blueY, 10, bluePaint);
+
+        canvas.drawText("Score : "+ score, 20, 60, scorePaint);
         canvas.drawText("Lv.1", canvasWidth /2f ,70, levelPaint);
 
         canvas.drawBitmap(life[0], 600, 30, null);
@@ -97,6 +121,14 @@ public class GameView extends View {
         canvas.drawBitmap(life[1], 720, 30, null);
 
 
+    }
+
+    public boolean hitCheck(int x, int y) {
+        if(KpuX < x && x < (KpuX + kpu[0].getWidth()) &&
+                KpuY < y && y < (KpuY + kpu[0].getHeight())){
+            return true;
+        }
+        return false;
     }
 
     @Override
