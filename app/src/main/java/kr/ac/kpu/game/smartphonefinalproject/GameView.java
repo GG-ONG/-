@@ -17,6 +17,12 @@ public class GameView extends View {
     private int canvasWidth;
     private int canvasHeight;
 
+    //검은볼
+    private int blackX;
+    private int blackY;
+    private int blackSpeed = 20;
+    private Paint blackPaint = new Paint();
+
     //파랑볼
     private int blueX;
     private int blueY;
@@ -56,6 +62,9 @@ public class GameView extends View {
 
         bluePaint.setColor(Color.BLUE);
         bluePaint.setAntiAlias(false);
+
+        blackPaint.setColor(Color.BLACK);
+        blackPaint.setAntiAlias(false);
 
         scorePaint.setColor(Color.BLACK);
         scorePaint.setTextSize(50);
@@ -99,6 +108,17 @@ public class GameView extends View {
         } else{
             canvas.drawBitmap(kpu[0], KpuX, KpuY, null);
         }
+
+        //검은색
+        blackX -= blackSpeed;
+        if(hitCheck(blackX, blackY)){
+            blackX = -100;
+        }
+        if (blackX < 0){
+            blackX = canvasWidth +200;
+            blackY = (int) Math.floor(Math.random() * (maxKpuY - minKpuY)) + minKpuY;
+        }
+        canvas.drawCircle(blackX, blackY, 20, blackPaint);
 
         //파랑
         blueX -= blueSpeed;
