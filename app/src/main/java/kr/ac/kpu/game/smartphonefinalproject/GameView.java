@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.graphics.Bitmap;
@@ -20,7 +21,7 @@ public class GameView extends View {
     //검은볼
     private int blackX;
     private int blackY;
-    private int blackSpeed = 20;
+    private int blackSpeed = 50;
     private Paint blackPaint = new Paint();
 
     //파랑볼
@@ -42,11 +43,10 @@ public class GameView extends View {
     private Paint scorePaint = new Paint();
     private int score;
 
-    //레벨
-    private Paint levelPaint = new Paint();
 
     //생명
     private Bitmap life[] = new Bitmap[2];
+    private int life_count;
 
     //상태 체크
     private boolean touch_flg = false;
@@ -71,11 +71,7 @@ public class GameView extends View {
         scorePaint.setTypeface(Typeface.DEFAULT_BOLD);
         scorePaint.setAntiAlias(true);
 
-        levelPaint.setColor(Color.DKGRAY);
-        levelPaint.setTextSize(32);
-        levelPaint.setTypeface(Typeface.DEFAULT_BOLD);
-        levelPaint.setTextAlign(Paint.Align.CENTER);
-        levelPaint.setAntiAlias(true);
+
 
         life[0] = BitmapFactory.decodeResource(getResources(), R.drawable.heart);
         life[1] = BitmapFactory.decodeResource(getResources(), R.drawable.heart_g);
@@ -83,6 +79,7 @@ public class GameView extends View {
         //처음 위치
         KpuY = 500;
         score = 0;
+        life_count = 3;
     }
 
     @Override
@@ -113,6 +110,10 @@ public class GameView extends View {
         blackX -= blackSpeed;
         if(hitCheck(blackX, blackY)){
             blackX = -100;
+            life_count--;
+            if(life_count == 0){
+                Log.v("MESSAGE","GAME OVER");
+            }
         }
         if (blackX < 0){
             blackX = canvasWidth +200;
@@ -134,11 +135,20 @@ public class GameView extends View {
         canvas.drawCircle(blueX, blueY, 10, bluePaint);
 
         canvas.drawText("Score : "+ score, 20, 60, scorePaint);
-        canvas.drawText("Lv.1", canvasWidth /2f ,70, levelPaint);
 
-        canvas.drawBitmap(life[0], 600, 30, null);
-        canvas.drawBitmap(life[0], 660, 30, null);
-        canvas.drawBitmap(life[1], 720, 30, null);
+
+        //생명
+        for (int i = 0; i <3; i++){
+            int x = (int) (600+ life[0].getWidth() * 1.5 *i);
+            int y = 30;
+
+            if(i<life_count){
+                canvas.drawBitmap(life[0], x, y, null);
+            } else{
+                canvas.drawBitmap(life[1], x, y, null);
+
+            }
+        }
 
 
     }
