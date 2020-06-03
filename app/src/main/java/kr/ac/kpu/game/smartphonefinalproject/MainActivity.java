@@ -2,6 +2,7 @@ package kr.ac.kpu.game.smartphonefinalproject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -13,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
     private GameView gameView;
     private Handler handler = new Handler();
     private final static long TiMER_INTERVAL = 50;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

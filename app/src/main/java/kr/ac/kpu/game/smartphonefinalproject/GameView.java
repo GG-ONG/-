@@ -1,6 +1,6 @@
 package kr.ac.kpu.game.smartphonefinalproject;
 
-import android.bluetooth.BluetoothA2dp;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -50,6 +50,18 @@ public class GameView extends View {
 
     //상태 체크
     private boolean touch_flg = false;
+    private int gameState;
+    private static final int GAME_START = 0;
+    private static final int GAME_PLAY = 1;
+    private static final int GAME_OVER = 2;
+
+    // 시작, 게임오버
+    private Bitmap startImage;
+    private Bitmap gameOverImage;
+    private Bitmap startBtn;
+    private Bitmap returnBtn;
+    private int btnImageX;
+    private int btnImageY;
 
     public GameView(Context context) {
         super(context);
@@ -57,8 +69,9 @@ public class GameView extends View {
         kpu[0] = BitmapFactory.decodeResource(getResources(), R.drawable.kpu1);
         kpu[1] = BitmapFactory.decodeResource(getResources(), R.drawable.kpu2);
 
-
+        startImage = BitmapFactory.decodeResource(getResources(), R.drawable.start);
         bgImage = BitmapFactory.decodeResource(getResources(), R.drawable.campus);
+        gameOverImage = BitmapFactory.decodeResource(getResources(), R.drawable.gameover);
 
         bluePaint.setColor(Color.BLUE);
         bluePaint.setAntiAlias(false);
@@ -76,19 +89,41 @@ public class GameView extends View {
         life[0] = BitmapFactory.decodeResource(getResources(), R.drawable.heart);
         life[1] = BitmapFactory.decodeResource(getResources(), R.drawable.heart_g);
 
-        //처음 위치
-        KpuY = 500;
-        score = 0;
-        life_count = 3;
+        startBtn = BitmapFactory.decodeResource(getResources(), R.drawable.start_btn);
+        returnBtn = BitmapFactory.decodeResource(getResources(),R.drawable.return_btn);
+
+
+        gameState = GAME_START;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
 
-        canvasWidth = canvas.getWidth();
-        canvasHeight = canvas.getHeight();
+        canvasWidth = getWidth();
+        canvasHeight = getHeight();
 
-        canvas.drawBitmap(bgImage, 0, 0, null);
+        btnImageX = canvasWidth / 2 - startBtn.getWidth() / 2;
+        btnImageY = canvasHeight / 2 + (int)(startBtn.getHeight() * 1.5);
+
+        switch (gameState){
+            case GAME_START:
+                canvas.drawBitmap(startImage, 0, 0, null);
+                drawStart(canvas);
+                break;
+            case GAME_PLAY:
+                canvas.drawBitmap(bgImage, 0,0,null);
+                drawPlay(canvas);
+                break;
+            case GAME_OVER:
+                canvas.drawBitmap(gameOverImage, 0, 0, null);
+                drawOver(canvas);
+                break;
+        }
+
+
+    }
+    public void drawPlay(Canvas canvas){
+
         //Kpu
         int minKpuY = kpu[0].getHeight();
         int maxKpuY = canvasHeight - kpu[0].getHeight() * 3;
@@ -134,6 +169,7 @@ public class GameView extends View {
         }
         canvas.drawCircle(blueX, blueY, 10, bluePaint);
 
+        //점수
         canvas.drawText("Score : "+ score, 20, 60, scorePaint);
 
 
@@ -150,6 +186,20 @@ public class GameView extends View {
             }
         }
 
+    }
+    public void drawStart(Canvas canvas){
+        //처음 위치, 점수, 생명 초기화
+        KpuY = canvasHeight / 2;
+        blueX = -100;
+        blackX = -100;
+        score = 0;
+        life_count = 3;
+
+        canvas.drawBitmap(startBtn, btnImageX, btnImageY, null);
+
+    }
+    public void drawOver(Canvas canvas){
+        canvas.drawBitmap(returnBtn, btnImageX, btnImageY,null);
 
     }
 
