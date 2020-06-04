@@ -147,7 +147,8 @@ public class GameView extends View {
             blackX = -100;
             life_count--;
             if(life_count == 0){
-                Log.v("MESSAGE","GAME OVER");
+                gameState = GAME_OVER;
+                return;
             }
         }
         if (blackX < 0){
@@ -214,9 +215,32 @@ public class GameView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            touch_flg = true;
-            KpuSpeed = -20;
+            switch(gameState){
+                case GAME_START:
+                    if(buttonTapCheck(startBtn, (int)event.getX(), (int)event.getY())){
+                        gameState = GAME_PLAY;
+                    }
+                    break;
+                case GAME_PLAY:
+                    touch_flg = true;
+                    KpuSpeed = -20;
+                    break;
+                case GAME_OVER:
+                    if(buttonTapCheck(returnBtn, (int)event.getX(), (int)event.getY())){
+                        gameState = GAME_START;
+                    }
+                    break;
+
+            }
+
         }
         return true;
+    }
+    public boolean buttonTapCheck(Bitmap button, int x, int y){
+        if(btnImageX < x && x <btnImageX + button.getWidth() && btnImageY < y && y < btnImageY
+        + button.getHeight()){
+            return true;
+        }
+        return false;
     }
 }
