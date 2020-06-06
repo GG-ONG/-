@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.graphics.Bitmap;
@@ -42,6 +41,8 @@ public class GameView extends View {
     //점수
     private Paint scorePaint = new Paint();
     private int score;
+    private ManageScore manageScore;
+    private int highScore;
 
 
     //생명
@@ -62,6 +63,7 @@ public class GameView extends View {
     private Bitmap returnBtn;
     private int btnImageX;
     private int btnImageY;
+    private Paint titleScorePaint = new Paint();
 
     public GameView(Context context) {
         super(context);
@@ -92,8 +94,15 @@ public class GameView extends View {
         startBtn = BitmapFactory.decodeResource(getResources(), R.drawable.start_btn);
         returnBtn = BitmapFactory.decodeResource(getResources(),R.drawable.return_btn);
 
+        titleScorePaint.setTextSize(70);
+        titleScorePaint.setTypeface(Typeface.DEFAULT_BOLD);
+        titleScorePaint.setTextAlign(Paint.Align.CENTER);
+
 
         gameState = GAME_START;
+
+        manageScore = new ManageScore(context);
+        highScore = manageScore.loadHighScore();
     }
 
     @Override
@@ -147,6 +156,10 @@ public class GameView extends View {
             blackX = -100;
             life_count--;
             if(life_count == 0){
+                if(score > highScore){
+                    manageScore.saveScore(score);
+                    highScore = score;
+                }
                 gameState = GAME_OVER;
                 return;
             }
@@ -196,10 +209,12 @@ public class GameView extends View {
         score = 0;
         life_count = 3;
 
+        canvas.drawText("High Score : " + highScore, canvasWidth /2, canvasHeight /2, titleScorePaint);
         canvas.drawBitmap(startBtn, btnImageX, btnImageY, null);
 
     }
     public void drawOver(Canvas canvas){
+        canvas.drawText("Score : " + score, canvasWidth / 2, canvasHeight /2 , titleScorePaint);
         canvas.drawBitmap(returnBtn, btnImageX, btnImageY,null);
 
     }
