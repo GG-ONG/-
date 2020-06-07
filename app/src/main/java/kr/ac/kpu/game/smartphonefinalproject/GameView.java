@@ -56,6 +56,9 @@ public class GameView extends View {
     private static final int GAME_PLAY = 1;
     private static final int GAME_OVER = 2;
 
+    //사운드
+    SoundPlayer soundPlayer;
+
     // 시작, 게임오버
     private Bitmap startImage;
     private Bitmap gameOverImage;
@@ -103,6 +106,9 @@ public class GameView extends View {
 
         manageScore = new ManageScore(context);
         highScore = manageScore.loadHighScore();
+
+        //사운드
+        soundPlayer = new SoundPlayer(context);
     }
 
     @Override
@@ -155,6 +161,7 @@ public class GameView extends View {
         if(hitCheck(blackX, blackY)){
             blackX = -100;
             life_count--;
+            soundPlayer.playHitBlackSound();
             if(life_count == 0){
                 if(score > highScore){
                     manageScore.saveScore(score);
@@ -175,6 +182,7 @@ public class GameView extends View {
         if(hitCheck(blueX, blueY)){
             score +=10;
             blueX = -100;
+            soundPlayer.playGetPointSound();
 
         }
         if(blueX < 0){
