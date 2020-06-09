@@ -163,6 +163,7 @@ public class GameView extends View {
             life_count--;
             soundPlayer.playHitBlackSound();
             if(life_count == 0){
+                soundPlayer.pauseBGM();
                 if(score > highScore){
                     manageScore.saveScore(score);
                     highScore = score;
@@ -241,6 +242,8 @@ public class GameView extends View {
             switch(gameState){
                 case GAME_START:
                     if(buttonTapCheck(startBtn, (int)event.getX(), (int)event.getY())){
+                        soundPlayer.seekToTop();
+                        soundPlayer.playBGM();
                         gameState = GAME_PLAY;
                     }
                     break;
@@ -265,5 +268,8 @@ public class GameView extends View {
             return true;
         }
         return false;
+    }
+    public int getGameState(){
+        return gameState;
     }
 }

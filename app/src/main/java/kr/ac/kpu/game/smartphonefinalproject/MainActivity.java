@@ -37,6 +37,17 @@ public class MainActivity extends AppCompatActivity {
             }
         },0, TiMER_INTERVAL);
 
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(gameView.getGameState() == 1) gameView.soundPlayer.playBGM();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        gameView.soundPlayer.pauseBGM();
     }
 }
