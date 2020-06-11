@@ -21,7 +21,8 @@ public class GameView extends View {
     private int blackX;
     private int blackY;
     private int blackSpeed = 50;
-    private Paint blackPaint = new Paint();
+    //private Paint blackPaint = new Paint();
+    private Bitmap blackPaint;
 
     //파랑볼
     private int blueX;
@@ -77,6 +78,8 @@ public class GameView extends View {
         kpu[0] = BitmapFactory.decodeResource(getResources(), R.drawable.kpu1);
         kpu[1] = BitmapFactory.decodeResource(getResources(), R.drawable.kpu2);
 
+
+
         startImage = BitmapFactory.decodeResource(getResources(), R.drawable.start);
         bgImage = BitmapFactory.decodeResource(getResources(), R.drawable.campus);
         gameOverImage = BitmapFactory.decodeResource(getResources(), R.drawable.gameover);
@@ -84,8 +87,9 @@ public class GameView extends View {
         bluePaint.setColor(Color.BLUE);
         bluePaint.setAntiAlias(false);
 
-        blackPaint.setColor(Color.BLACK);
-        blackPaint.setAntiAlias(false);
+        //blackPaint.setColor(Color.BLACK);
+        //blackPaint.setAntiAlias(false);
+        blackPaint = BitmapFactory.decodeResource(getResources(), R.drawable.f);
 
         scorePaint.setColor(Color.BLACK);
         scorePaint.setTextSize(50);
@@ -181,7 +185,7 @@ public class GameView extends View {
             blackX = canvasWidth +200;
             blackY = (int) Math.floor(Math.random() * (maxKpuY - minKpuY)) + minKpuY;
         }
-        canvas.drawCircle(blackX, blackY, 20, blackPaint);
+        canvas.drawBitmap(blackPaint, blackX, blackY,null);
 
         //파랑
         blueX -= blueSpeed;
