@@ -26,7 +26,7 @@ public class GameView extends View {
     //파랑볼
     private int blueX;
     private int blueY;
-    private int blueSpeed = 30;
+    private int blueSpeed = 70;
     private Paint bluePaint = new Paint();
 
     //kpu로고
@@ -43,6 +43,9 @@ public class GameView extends View {
     private int score;
     private ManageScore manageScore;
     private int highScore;
+
+    //레벨
+    private Paint levelPaint = new Paint();
 
 
     //생명
@@ -88,6 +91,8 @@ public class GameView extends View {
         scorePaint.setTextSize(50);
         scorePaint.setTypeface(Typeface.DEFAULT_BOLD);
         scorePaint.setAntiAlias(true);
+
+        levelPaint.setTextSize(50);
 
 
 
@@ -192,8 +197,13 @@ public class GameView extends View {
         }
         canvas.drawCircle(blueX, blueY, 10, bluePaint);
 
+        int level = (int) Math.floor(score / 50) +1 ;
+
         //점수
         canvas.drawText("Score : "+ score, 20, 60, scorePaint);
+
+        //레벨
+        canvas.drawText("레벨 : " + level, canvasWidth / 3, 70, levelPaint);
 
 
         //생명
