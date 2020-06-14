@@ -6,10 +6,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 
+<<<<<<< HEAD
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
+=======
+>>>>>>> 56039ec29e61ddc7bd46e4ddccf8cde0eb260027
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -18,7 +21,10 @@ public class MainActivity extends AppCompatActivity {
     private GameView gameView;
     private Handler handler = new Handler();
     private final static long TiMER_INTERVAL = 50;
+<<<<<<< HEAD
     private InterstitialAd interstitialAd;
+=======
+>>>>>>> 56039ec29e61ddc7bd46e4ddccf8cde0eb260027
 
 
     @Override
@@ -42,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
             }
         },0, TiMER_INTERVAL);
 
+<<<<<<< HEAD
         interstitialAd = new InterstitialAd(this);
         interstitialAd.setAdUnitId("ca-app-pub-3940256099942544/8691691433");
         interstitialAd.loadAd(new AdRequest.Builder().build());
@@ -52,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+=======
+>>>>>>> 56039ec29e61ddc7bd46e4ddccf8cde0eb260027
     }
 
     @Override
