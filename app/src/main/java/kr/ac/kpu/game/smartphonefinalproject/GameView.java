@@ -20,14 +20,22 @@ public class GameView extends View {
     //검은볼
     private int blackX;
     private int blackY;
+
     //private int blackSpeed = 50;
+
+    private int blackSpeed = 50;
+
     //private Paint blackPaint = new Paint();
     private Bitmap blackPaint;
 
     //파랑볼
     private int blueX;
     private int blueY;
+
     //private int blueSpeed = 70;
+
+    private int blueSpeed = 70;
+
     private Paint bluePaint = new Paint();
 
     //kpu로고
@@ -62,6 +70,7 @@ public class GameView extends View {
 
     //사운드
     SoundPlayer soundPlayer;
+
 
     //호환
     private int BLUE_SPEED = getResources().getInteger(R.integer.blue_speed);
@@ -113,11 +122,15 @@ public class GameView extends View {
 
 
 
+
+
+
         life[0] = BitmapFactory.decodeResource(getResources(), R.drawable.heart);
         life[1] = BitmapFactory.decodeResource(getResources(), R.drawable.heart_g);
 
         startBtn = BitmapFactory.decodeResource(getResources(), R.drawable.start_btn);
         returnBtn = BitmapFactory.decodeResource(getResources(),R.drawable.return_btn);
+
 
         titleScorePaint.setTextSize(getResources().getInteger(R.integer.title_score_paint_text_size));
         titleScorePaint.setTypeface(Typeface.DEFAULT_BOLD);
@@ -168,7 +181,9 @@ public class GameView extends View {
         KpuY += KpuSpeed;
         if (KpuY < minKpuY) KpuY = minKpuY;
         if (KpuY > maxKpuY) KpuY = maxKpuY;
+
         KpuSpeed += KPU_FALL_SPEED;
+
 
         if(touch_flg){
             // 날개
@@ -179,7 +194,9 @@ public class GameView extends View {
         }
 
         //검은색
+
         blackX -= BLACK_SPEED;
+
         if(hitCheck(blackX, blackY)){
             blackX = -100;
             life_count--;
@@ -201,7 +218,9 @@ public class GameView extends View {
         canvas.drawBitmap(blackPaint, blackX, blackY,null);
 
         //파랑
+
         blueX -= BLUE_SPEED;
+
         if(hitCheck(blueX, blueY)){
             score +=10;
             blueX = -100;
@@ -212,7 +231,10 @@ public class GameView extends View {
             blueX = canvasWidth + 20;
             blueY = (int) Math.floor(Math.random() * (maxKpuY - minKpuY)) + minKpuY;
         }
+
         canvas.drawCircle(blueX, blueY, BLUE_SIZE, bluePaint);
+
+
 
         int level = (int) Math.floor(score / 50) +1 ;
 
@@ -223,10 +245,13 @@ public class GameView extends View {
         canvas.drawText("레벨 : " + level, canvasWidth / 3, LEVEL_Y_POSITION, levelPaint);
 
 
+
         //생명
         for (int i = 0; i <3; i++){
+
             int x = (int) (canvasWidth*0.7 + life[0].getWidth() * 1.4 *i);
             int y = LIFE_Y_POSITION;
+
 
             if(i<life_count){
                 canvas.drawBitmap(life[0], x, y, null);
@@ -276,7 +301,11 @@ public class GameView extends View {
                     break;
                 case GAME_PLAY:
                     touch_flg = true;
+
                     KpuSpeed = KPU_TAP_SPEED;
+
+
+
                     break;
                 case GAME_OVER:
                     if(buttonTapCheck(returnBtn, (int)event.getX(), (int)event.getY())){

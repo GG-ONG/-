@@ -65,11 +65,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if(gameView.getGameState() == 1) SoundPlayer.playBGM();
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         SoundPlayer.pauseBGM();
+
     }
 }
